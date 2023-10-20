@@ -1,0 +1,50 @@
+async function deleteUpdate(message) {
+    try {
+        const { fromMe, id, participant } = message;
+
+        if (fromMe) {
+            return; // Ignore messages sent by the script's own number.
+        }
+
+        // Load the deleted message.
+        let msg = loadMessage(id);
+        if (!msg) {
+            return; // If the message cannot be loaded, exit.
+        }
+
+        // Send a notification to yourself.
+        const yourWhatsAppNumber = '601112304952'; // Replace with your WhatsApp number.
+        const notification = `
+        ≡ Deleted Message
+        ┌─⊷  ANTI DELETE
+        ▢ *Number:* @${participant.split`@`[0]}
+        └─────────────
+        To deactivate, send:
+        /off antidelete
+        /enable delete
+        `.trim();
+        await sendWhatsAppMessage(yourWhatsAppNumber, notification);
+
+        // Forward the deleted message.
+        await forwardWhatsAppMessage(yourWhatsAppNumber, msg);
+
+    } catch (e) {
+        console.error(e);
+    }
+}
+
+// Simulated functions to load and send WhatsApp messages.
+function loadMessage(messageId) {
+    // Implement loading a message based on the provided messageId.
+    // Return the message object or null if the message doesn't exist.
+}
+
+async function sendWhatsAppMessage(whatsappNumber, message) {
+    // Implement sending a WhatsApp message to the provided number.
+    // You should use a WhatsApp API or library for this purpose.
+}
+
+async function forwardWhatsAppMessage(whatsappNumber, message) {
+    // Implement forwarding a WhatsApp message to the provided number.
+    // You should use a WhatsApp API or library for this purpose.
+}
